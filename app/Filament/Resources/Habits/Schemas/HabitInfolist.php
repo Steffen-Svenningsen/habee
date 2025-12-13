@@ -11,17 +11,15 @@ class HabitInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('user_id')
-                    ->numeric(),
                 TextEntry::make('name'),
+                TextEntry::make('category.name')
+                    ->label('Category')
+                    ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
                     ->dateTime()
-                    ->placeholder('-'),
-                TextEntry::make('category_id')
-                    ->numeric()
                     ->placeholder('-'),
             ]);
     }

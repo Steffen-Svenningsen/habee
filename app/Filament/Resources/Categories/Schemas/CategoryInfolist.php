@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Categories\Schemas;
 
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -13,13 +14,16 @@ class CategoryInfolist
             ->components([
                 TextEntry::make('name'),
                 TextEntry::make('color'),
+                ImageEntry::make('icon')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
-                TextEntry::make('icon'),
             ]);
     }
 }

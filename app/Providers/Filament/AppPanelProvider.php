@@ -31,6 +31,7 @@ class AppPanelProvider extends PanelProvider
             ->path('/')
             ->viteTheme('resources/css/filament/app/theme.css')
             ->login()
+            ->darkMode(true, true)
             ->spa()
             ->registration()
             ->colors([
