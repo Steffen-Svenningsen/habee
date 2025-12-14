@@ -17,6 +17,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
@@ -39,7 +40,7 @@ class AppPanelProvider extends PanelProvider
             ])
             ->userMenuItems([
                 'profile' => Action::make('profile')
-                    ->label(fn () => auth()->user()->name)
+                    ->label(fn () => Auth::user()->name)
                     ->url(fn (): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle'),
             ])
@@ -55,6 +56,7 @@ class AppPanelProvider extends PanelProvider
                     ->setTitle('My Profile')
                     ->setNavigationLabel('My Profile')
                     ->setIcon('heroicon-o-user')
+                    ->setNavigationGroup('Account')
                     ->shouldShowMultiFactorAuthentication(true),
             ])
             ->multiFactorAuthentication([

@@ -17,9 +17,21 @@ class HabitTrackerWidget extends Widget
     {
         return Habit::where('user_id', Auth::id())
             ->with(['completions' => function ($q) {
-                $q->where('date', today());
+                $q->whereBetween('date', [
+                    today()->subDays(6),
+                    today(),
+                ]);
             }])
             ->get();
+    }
+
+    public function getWeekDates(): array
+    {
+        return collect(range(0, 6))
+            ->map(fn ($daysAgo) => today()->subDays($daysAgo))
+            ->values()
+            ->reverse()
+            ->toArray();
     }
 
     public function toggleHabit(int $habitId)
@@ -31,15 +43,26 @@ class HabitTrackerWidget extends Widget
             ->first();
 
         if ($completion) {
-            $completion->delete();
+            $completion->update([
+                'is_completed' => ! $completion->is_completed,
+            ]);
         } else {
             $habit->completions()->create([
                 'date' => today(),
+                'is_completed' => true,
             ]);
+        }
 
+        if ($completion && ! $completion->is_completed) {
             Notification::make()
-                ->title('Nice work! 💪')
-                ->body("You've completed the habit: {$habit->name} for today.")
+                ->id('habit-completion-toggle')
+                ->title("Marked '{$habit->name}' as incomplete for today ⏳")
+                ->danger()
+                ->send();
+        } else {
+            Notification::make()
+                ->id('habit-completion-toggle')
+                ->title("Marked '{$habit->name}' as complete for today 💪")
                 ->success()
                 ->send();
         }

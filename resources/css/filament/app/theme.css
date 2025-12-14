@@ -6,3 +6,37 @@
 html.fi {
     scrollbar-gutter: auto;
 }
+
+/* Sidebar navigation styles */
+.fi-sidebar-nav {
+    @apply pb-0 lg:border-r lg:border-[#5a5a5a1a] dark:lg:border-[#ffffff1a] bg-white dark:bg-gray-900;
+}
+
+.fi-sidebar-nav .fi-sidebar-nav-groups {
+    @apply h-full;
+
+    li:last-child {
+        @apply mt-auto;
+
+        &:not(.fi-sidebar-item-has-url) {
+            @apply pb-4;
+        }
+    }
+}
+
+.fi-sidebar-nav .fi-sidebar-item:hover a svg,
+.fi-sidebar-nav .fi-sidebar-item:hover a span {
+    @apply text-primary-500 duration-200;
+}
+
+.fi-sidebar-nav .fi-sidebar-item a {
+    @apply hover:bg-transparent relative;
+}
+
+.fi-sidebar-nav .fi-sidebar-item.fi-active a {
+    @apply bg-transparent;
+
+    &::after {
+        @apply h-full w-0.5 bg-primary-500 absolute top-0 start-0 -left-4 content-[''];
+    }
+}
